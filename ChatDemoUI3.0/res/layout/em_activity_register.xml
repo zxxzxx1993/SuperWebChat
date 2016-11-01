@@ -2,24 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eff2f6"
+    android:background="@drawable/background_logo"
     android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/register_back"
+            android:layout_marginLeft="5dp"
+            android:layout_width="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_back"
+            />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_weight="1" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/em_welcom_logo" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_weight="1.5"
@@ -48,12 +55,40 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/iv_username"
                 android:background="@null"
-                android:hint="@string/user_name"
+                android:hint="@string/userinfo_txt_name"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
                 android:textSize="18sp" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#fff" >
 
+            <ImageView
+                android:id="@+id/iv_usernick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/em_icon_account" />
+
+            <EditText
+                android:id="@+id/usernick"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_usernick"
+                android:background="@null"
+                android:hint="@string/userinfo_txt_nick"
+                android:paddingLeft="10dip"
+                android:singleLine="true"
+                android:textSize="18sp" />
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -78,7 +113,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/iv_password"
                 android:background="@null"
-                android:hint="@string/password"
+                android:hint="密码"
                 android:inputType="textPassword"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
