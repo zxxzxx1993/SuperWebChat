@@ -28,7 +28,7 @@ android {
         targetSdkVersion 22
         multiDexEnabled true
     }
-
+    configurations { all*.exclude group: 'com.android.support', module: 'support-v4' }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
