@@ -37,6 +37,7 @@ import cn.ucai.superwechat.parse.UserProfileManager;
 import cn.ucai.superwechat.receiver.CallReceiver;
 import cn.ucai.superwechat.ui.ChatActivity;
 import cn.ucai.superwechat.ui.MainActivity;
+import cn.ucai.superwechat.ui.UserProfileActivity;
 import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
 import cn.ucai.superwechat.utils.PreferenceManager;
@@ -64,6 +65,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class SuperWeChatHelper {
+   private static UserProfileActivity  context;
+
+
+
+
+
     public User getUser() {
         return user;
     }
@@ -227,6 +234,11 @@ public class SuperWeChatHelper {
             public EaseUser getUser(String username) {
                 return getUserInfo(username);
             }
+
+            @Override
+            public User getAppUser(String username) {
+                return getAppUserInfo(username);
+            }
         });
 
         //set options 
@@ -365,6 +377,16 @@ public class SuperWeChatHelper {
                 return intent;
             }
         });
+    }
+
+    private User getAppUserInfo(String username) {
+        UserDao dao = new UserDao(context);
+       User user = dao.getUser(username);
+        if(username.equals(EMClient.getInstance().getCurrentUser()))
+            return user;
+        user = dao.getUser(username);
+        // if user is not in your contacts, set inital letter for him/her
+        return user;
     }
 
     EMConnectionListener connectionListener;
@@ -857,8 +879,7 @@ public class SuperWeChatHelper {
 	
 	/**
 	 * update contact list
-	 * 
-	 * @param contactList
+	 *
 	 */
 	public void setContactList(Map<String, EaseUser> aContactList) {
 		if(aContactList == null){
@@ -930,7 +951,7 @@ public class SuperWeChatHelper {
 	 /**
      * update user list to cache and database
      *
-     * @param contactList
+
      */
     public void updateContactList(List<EaseUser> contactInfoList) {
          for (EaseUser u : contactInfoList) {
