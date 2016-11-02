@@ -36,10 +36,13 @@ import cn.ucai.superwechat.bean.Result;
 import cn.ucai.superwechat.data.NetDao;
 import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.SuperWeChatDBManager;
+import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.MD5;
 import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 
 /**
@@ -69,9 +72,8 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 		setContentView(R.layout.em_activity_login);
-		initView();
-		setlitener();
 
+		initView();
 	}
 
 	private void initView() {
@@ -87,6 +89,7 @@ public class LoginActivity extends BaseActivity {
 		if (SuperWeChatHelper.getInstance().getCurrentUsernName() != null) {
 			usernameEditText.setText(SuperWeChatHelper.getInstance().getCurrentUsernName());
 		}
+		setlitener();
 	}
 
 	private void setlitener() {
@@ -189,11 +192,24 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginAppServer() {
-		NetDao.login(LoginActivity.this, currentUsername, currentPassword, new OkHttpUtils.OnCompleteListener<Result>() {
+		NetDao.login(LoginActivity.this, currentUsername, currentPassword, new OkHttpUtils.OnCompleteListener<String>() {
 			@Override
-			public void onSuccess(Result result) {
-				L.e(TAG,"result="+result);
-				loginSuccess();
+			public void onSuccess(String s) {
+				L.e(TAG,"s="+s);
+				if (s!=null&&s!="") {
+					Result result = ResultUtils.getResultFromJson(s,User.class);
+					if (result != null && result.isRetMsg()) {
+						User user = (User) result.getRetData();
+						if (user != null) {
+							UserDao dao = new UserDao(LoginActivity.this);
+							dao.savaUser(user);
+							SuperWeChatHelper.getInstance().setUser(user);
+							loginSuccess();
+						}
+					} else {
+						pd.dismiss();
+					}
+				}
 			}
 
 			@Override

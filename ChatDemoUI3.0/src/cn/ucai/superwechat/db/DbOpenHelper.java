@@ -23,6 +23,15 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 
 	private static final int DATABASE_VERSION = 6;
 	private static DbOpenHelper instance;
+	private static final String FULICENTER_CREATE="create table "
+			+UserDao.USER_TABLE_NAME+" ("
+			+UserDao.USER_NAME+" text primary key, "
+			+UserDao.USER_NICK+" text, "
+			+UserDao.USER_AVATAR_ID+" integer, "
+			+UserDao.USER_AVATAR_TYPE+" integer, "
+			+UserDao.USER_AVATAR_PATH+" text, "
+			+UserDao.USER_AVATAR_SUFFIX+" text, "
+			+UserDao.USER_AVATAR_LASTUPDATE_TIME+" text);";
 
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
 			+ UserDao.TABLE_NAME + " ("
@@ -75,7 +84,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 		db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
 		db.execSQL(CREATE_PREF_TABLE);
 		db.execSQL(ROBOT_TABLE_CREATE);
-		
+		db.execSQL(FULICENTER_CREATE);
 	}
 
 	@Override

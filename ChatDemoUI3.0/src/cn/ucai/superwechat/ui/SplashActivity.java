@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
+
 import cn.ucai.superwechat.SuperWeChatHelper;
-import cn.ucai.superwechat.R;;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.L;;
 
 /**
  * 开屏页
  *
  */
 public class SplashActivity extends BaseActivity {
-
+    private static final String TAG = SplashActivity.class.getSimpleName();
 	private static final int sleepTime = 2000;
 
 	@Override
@@ -36,6 +40,9 @@ public class SplashActivity extends BaseActivity {
 					long start = System.currentTimeMillis();
 					EMClient.getInstance().groupManager().loadAllGroups();
 					EMClient.getInstance().chatManager().loadAllConversations();
+					UserDao dao = new UserDao(SplashActivity.this);
+					User user = dao.getUser(SuperWeChatHelper.getInstance().getCurrentUsernName());
+					L.e(TAG,"user="+user);
 					long costTime = System.currentTimeMillis() - start;
 					//wait
 					if (sleepTime - costTime > 0) {
