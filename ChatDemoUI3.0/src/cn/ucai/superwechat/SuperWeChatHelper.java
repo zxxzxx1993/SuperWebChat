@@ -111,7 +111,7 @@ public class SuperWeChatHelper {
 	private static SuperWeChatHelper instance = null;
 	
 	private SuperWeChatModel demoModel = null;
-	
+    private Map<String, User> appContactList;
 	/**
      * sync groups status listener
      */
@@ -380,12 +380,17 @@ public class SuperWeChatHelper {
     }
 
     private User getAppUserInfo(String username) {
-        UserDao dao = new UserDao(context);
-       User user = dao.getUser(username);
-        if(username.equals(EMClient.getInstance().getCurrentUser()))
-            return user;
-        user = dao.getUser(username);
+        // To get instance of EaseUser, here we get it from the user list in memory
+        // You'd better cache it if you get it from your server
+        User user = null;
+
+        user = getAppContactList().get(username);
+
         // if user is not in your contacts, set inital letter for him/her
+        if(user == null){
+            user = new User(username);
+            EaseCommonUtils.setAppUserInitialLetter(user);
+        }
         return user;
     }
 
@@ -1273,5 +1278,57 @@ public class SuperWeChatHelper {
     public void popActivity(Activity activity) {
         easeUI.popActivity(activity);
     }
+
+
+    public void setAppContactList(Map<String, User> aContactList) {
+        if(aContactList == null){
+            if (appContactList != null) {
+                appContactList.clear();
+            }
+            return;
+        }
+
+        appContactList = aContactList;
+    }
+
+    /**
+     * save single contact
+     */
+    public void saveAppContact(User user){
+        appContactList.put(user.getMUserName(), user);
+        demoModel.saveAppContact(user);
+    }
+
+    /**
+     * get contact list
+     *
+     * @return
+     */
+    public Map<String, User> getAppContactList() {
+        if (isLoggedIn() && appContactList == null) {
+            appContactList = demoModel.getAppContactList();
+        }
+
+        // return a empty non-null object to avoid app crash
+        if(appContactList == null){
+            return new Hashtable<String, User>();
+        }
+
+        return appContactList;
+    }
+    /**
+     * update user list to cache and database
+     *
+
+     */
+    public void updateAppContactList(List<User> contactInfoList) {
+        for (User u : contactInfoList) {
+            appContactList.put(u.getMUserName(), u);
+        }
+        ArrayList<User> mList = new ArrayList<User>();
+        mList.addAll(appContactList.values());
+        demoModel.saveAppContactList(mList);
+    }
+
 
 }

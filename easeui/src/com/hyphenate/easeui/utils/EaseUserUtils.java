@@ -61,13 +61,42 @@ public class EaseUserUtils {
      */
     public static void setUserNick(String username,TextView textView){
         if(textView != null){
-        	User user = getAppUserInfo(username);
-        	if(user != null && user.getMUserNick() != null){
-        		textView.setText(user.getMUserNick());
+        	EaseUser user = getUserInfo(username);
+        	if(user != null && user.getNick() != null){
+        		textView.setText(user.getNick());
         	}else{
         		textView.setText(username);
         	}
         }
     }
-    
+
+    /**
+     * set user avatar
+     * @param username
+     */
+    public static void setAppUserAvatar(Context context, String username, ImageView imageView){
+        User user = getAppUserInfo(username);
+        if(user != null && user.getAvatar() != null){
+            try {
+                int avatarResId = Integer.parseInt(user.getAvatar());
+                Glide.with(context).load(avatarResId).into(imageView);
+            } catch (Exception e) {
+                //use default avatar
+                Glide.with(context).load(user.getAvatar()).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ease_default_avatar).into(imageView);
+            }
+        }else{
+            Glide.with(context).load(R.drawable.ease_default_avatar).into(imageView);
+        }
+    }
+
+    public static void setAppUserNick(String username,TextView textView) {
+        if(textView != null){
+            User user = getAppUserInfo(username);
+            if(user != null && user.getMUserNick() != null){
+                textView.setText(user.getMUserNick());
+            }else{
+                textView.setText(username);
+            }
+        }
+    }
 }

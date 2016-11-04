@@ -435,4 +435,79 @@ public class SuperWeChatDBManager {
         }
         return result>0;
     }
+
+    synchronized public void saveAppContactList(List<User> contactList) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db.isOpen()) {
+            db.delete(UserDao.USER_TABLE_NAME, null, null);
+            for (User user : contactList) {
+                ContentValues values = new ContentValues();
+                values.put(UserDao.USER_NAME,user.getMUserName());
+                if(user.getMUserNick() != null)
+                    values.put(UserDao.USER_NICK,user.getMUserNick());
+                if(user.getMAvatarId() != null)
+                    values.put(UserDao.USER_AVATAR_ID,user.getMAvatarId());
+                if(user.getMAvatarType() != null)
+                    values.put(UserDao.USER_AVATAR_TYPE,user.getMAvatarType());
+                if(user.getMAvatarPath() != null)
+                    values.put(UserDao.USER_AVATAR_PATH,user.getMAvatarPath());
+                if(user.getMAvatarSuffix() != null)
+                    values.put(UserDao.USER_AVATAR_SUFFIX,user.getMAvatarSuffix());
+                if(user.getMAvatarLastUpdateTime() != null)
+                    values.put(UserDao.USER_AVATAR_LASTUPDATE_TIME,user.getMAvatarLastUpdateTime()+"");
+                db.replace(UserDao.USER_TABLE_NAME, null, values);
+            }
+        }
+    }
+
+    synchronized public Map<String, User> getAppContactList() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Map<String, User> users = new Hashtable<String, User>();
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + UserDao.USER_TABLE_NAME /* + " desc" */, null);
+            while (cursor.moveToNext()) {
+                String username = cursor.getString(cursor.getColumnIndex(UserDao.USER_NAME));
+                User user = new User(username);
+                int id = cursor.getInt(cursor.getColumnIndex(UserDao.USER_AVATAR_ID));
+                String name=cursor.getString(cursor.getColumnIndex(UserDao.USER_NAME));
+                String nick=cursor.getString(cursor.getColumnIndex(UserDao.USER_NICK));
+                int type = cursor.getInt(cursor.getColumnIndex(UserDao.USER_AVATAR_TYPE));
+                String path = cursor.getString(cursor.getColumnIndex(UserDao.USER_AVATAR_PATH));
+                String suffix = cursor.getString(cursor.getColumnIndex(UserDao.USER_AVATAR_SUFFIX));
+                String lastime=String.valueOf(cursor.getString(cursor.getColumnIndex(UserDao.USER_AVATAR_LASTUPDATE_TIME)));
+                user.setMAvatarId(id);
+                user.setMUserName(name);
+                user.setMUserNick(nick);
+                user.setMAvatarPath(path);
+                user.setMAvatarType(type);
+                user.setMAvatarSuffix(suffix);
+                user.setMAvatarLastUpdateTime(lastime);
+                    EaseCommonUtils.setAppUserInitialLetter(user);
+
+                users.put(username, user);
+            }
+            cursor.close();
+        }
+        return users;
+    }
+    synchronized public void saveAppContact(User user){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(UserDao.USER_NAME,user.getMUserName());
+        if(user.getMUserNick() != null)
+        values.put(UserDao.USER_NICK,user.getMUserNick());
+        if(user.getMAvatarId() != null)
+        values.put(UserDao.USER_AVATAR_ID,user.getMAvatarId());
+        if(user.getMAvatarType() != null)
+        values.put(UserDao.USER_AVATAR_TYPE,user.getMAvatarType());
+        if(user.getMAvatarPath() != null)
+        values.put(UserDao.USER_AVATAR_PATH,user.getMAvatarPath());
+        if(user.getMAvatarSuffix() != null)
+        values.put(UserDao.USER_AVATAR_SUFFIX,user.getMAvatarSuffix());
+        if(user.getMAvatarLastUpdateTime() != null)
+        values.put(UserDao.USER_AVATAR_LASTUPDATE_TIME,user.getMAvatarLastUpdateTime()+"");
+        if(db.isOpen()){
+            db.replace(UserDao.USER_TABLE_NAME, null, values);
+        }
+    }
 }
