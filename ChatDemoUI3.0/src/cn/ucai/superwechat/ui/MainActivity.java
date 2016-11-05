@@ -28,9 +28,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,10 +49,14 @@ import com.hyphenate.chat.EMMessage;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.R;;
+import cn.ucai.superwechat.adapter.MainTabAdpter;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.runtimepermissions.PermissionsManager;
 import cn.ucai.superwechat.runtimepermissions.PermissionsResultAction;
+import cn.ucai.superwechat.widget.DMTabHost;
+import cn.ucai.superwechat.widget.MFViewPager;
+
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.umeng.analytics.MobclickAgent;
@@ -59,7 +65,7 @@ import com.umeng.update.UmengUpdateAgent;
 import java.util.List;
 
 @SuppressLint("NewApi")
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedChangeListener,ViewPager.OnPageChangeListener{
 
 	protected static final String TAG = "MainActivity";
 //	// textview for unread message count
@@ -76,7 +82,10 @@ public class MainActivity extends BaseActivity {
 	public boolean isConflict = false;
 	// user account was removed
 	private boolean isCurrentAccountRemoved = false;
-	
+	private MFViewPager  mMFViewPager;
+	private ImageView ivAdd;
+	private DMTabHost mDMTabHost;
+	private MainTabAdpter mMainTabAdpter;
 
 	/**
 	 * check if current user account was remove
@@ -189,6 +198,20 @@ public class MainActivity extends BaseActivity {
 //		mTabs[2] = (Button) findViewById(R.id.btn_setting);
 //		// select first tab
 //		mTabs[0].setSelected(true);
+		mMainTabAdpter = new MainTabAdpter(getSupportFragmentManager());
+		mMFViewPager = (MFViewPager) findViewById(R.id.layout_viewpager);
+		mDMTabHost = (DMTabHost) findViewById(R.id.layout_tabhost);
+		mMainTabAdpter.clear();
+		mMFViewPager.setAdapter(mMainTabAdpter);
+		mMFViewPager.setOffscreenPageLimit(4);
+		mMainTabAdpter.addFragment(new ConversationListFragment(),getString(R.string.app_name));
+		mMainTabAdpter.addFragment(new ContactListFragment(),getString(R.string.contacts));
+		mMainTabAdpter.addFragment(new DiscoverFragment(),getString(R.string.discover));
+		mMainTabAdpter.addFragment(new SettingsFragment(),getString(R.string.me));
+		mMainTabAdpter.notifyDataSetChanged();
+		mDMTabHost.setChecked(0);
+		mDMTabHost.setOnCheckedChangeListener(this);
+		mMFViewPager.setOnPageChangeListener(this);
 	}
 
 
@@ -288,7 +311,28 @@ public class MainActivity extends BaseActivity {
         };
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
     }
-	
+
+	@Override
+	public void onCheckedChange(int checkedPosition, boolean byUser) {
+		mMFViewPager.setCurrentItem(checkedPosition);
+	}
+
+	@Override
+	public void onPageScrolled(int i, float v, int i1) {
+
+	}
+
+	@Override
+	public void onPageSelected(int i) {
+           mDMTabHost.setChecked(i);
+		mMFViewPager.setCurrentItem(i);
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int i) {
+
+	}
+
 	public class MyContactListener implements EMContactListener {
         @Override
         public void onContactAdded(String username) {}
