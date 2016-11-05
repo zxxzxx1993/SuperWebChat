@@ -2,11 +2,14 @@ package cn.ucai.superwechat.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
+import cn.ucai.superwechat.ui.SettingsActivity;
+import cn.ucai.superwechat.ui.UserProfileActivity;
 
 
 public class MFGT {
@@ -28,5 +31,13 @@ public static void gotoLogin(Activity context){
 }
     public static void gotoRegister(Activity context){
         startActivity(context, RegisterActivity.class);
+    }
+
+    public static void gotosetting(Activity context) {
+        startActivity(context, SettingsActivity.class);
+    }
+
+    public static void gotoProfile(Activity activity) {
+        startActivity(activity, UserProfileActivity.class);
     }
 }

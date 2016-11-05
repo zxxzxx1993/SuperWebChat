@@ -121,4 +121,9 @@ public class EaseUserUtils {
     private static void setAppUserName(String suffix,String username, TextView profileWeixin) {
         profileWeixin.setText(suffix+username);
     }
+
+    public static void setCurentAppUserNamePro(TextView profileWeixin) {
+        String username = EMClient.getInstance().getCurrentUser();
+        setAppUserName("",username,profileWeixin);
+    }
 }

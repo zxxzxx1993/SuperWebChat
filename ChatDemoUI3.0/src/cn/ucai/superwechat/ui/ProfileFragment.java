@@ -1,5 +1,6 @@
 package cn.ucai.superwechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/11/5.
@@ -59,6 +61,7 @@ public class ProfileFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_profile:
+                MFGT.gotoProfile(getActivity());
                 break;
             //red packet code : 进入零钱页面
             case R.id.profile_money:
@@ -67,6 +70,7 @@ public class ProfileFragment extends Fragment {
             //end of red packet code
 
             case R.id.profile_setting:
+                MFGT.gotosetting(getActivity());
                 break;
         }
     }
