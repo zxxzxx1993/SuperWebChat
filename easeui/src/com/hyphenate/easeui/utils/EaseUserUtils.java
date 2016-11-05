@@ -126,4 +126,12 @@ public class EaseUserUtils {
         String username = EMClient.getInstance().getCurrentUser();
         setAppUserName("",username,profileWeixin);
     }
+
+    public static User getCurrentAppUserInfo() {
+        String username = EMClient.getInstance().getCurrentUser();
+        if(userProvider != null)
+            return userProvider.getAppUser(username);
+
+        return null;
+    }
 }
