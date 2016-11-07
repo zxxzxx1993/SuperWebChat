@@ -98,6 +98,7 @@ public class EaseUserUtils {
                 textView.setText(user.getMUserNick());
             }else{
                 textView.setText(username);
+
             }
         }
     }
