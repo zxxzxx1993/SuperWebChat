@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
 import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.RegisterActivity;
@@ -39,5 +40,9 @@ public static void gotoLogin(Activity context){
 
     public static void gotoProfile(Activity activity) {
         startActivity(activity, UserProfileActivity.class);
+    }
+
+    public static void gotoAddFriend(Activity activity) {
+        startActivity(activity, AddContactActivity.class);
     }
 }
