@@ -135,4 +135,8 @@ public class EaseUserUtils {
 
         return null;
     }
+
+    public static void setAppUserNameEhino(String username,TextView profileWeixin) {
+        setAppUserName("微信号：",username,profileWeixin);
+    }
 }

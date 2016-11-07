@@ -260,6 +260,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ui.SendToaddFriendActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- user profile -->
         <activity
             android:name=".ui.UserProfileActivity"
@@ -271,6 +276,10 @@
             android:theme="@style/horizontal_slide" />
         <activity
             android:name=".ui.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" />
+        <activity
+            android:name=".ui.ProfileFriendActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
         <!-- 红包相关Activity start -->

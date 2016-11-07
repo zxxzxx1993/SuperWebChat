@@ -13,25 +13,33 @@
         android:background="@color/top_bar_normal_bg"
         android:gravity="center_vertical">
 
-        <include layout="@layout/ease_commom_back_btn" />
+        <ImageView
+            android:layout_marginLeft="7dp"
+            android:id="@+id/addfriend_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_back"
+            />
 
         <TextView
-            android:id="@+id/add_list_friends"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@+id/addfriend_back"
+            android:text="添加好友"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
             android:textColor="#fff"
             android:textSize="18sp" />
-        
+
         <Button
-            android:id="@+id/search"
+            android:id="@+id/send"
             android:layout_width="54dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/ease_common_tab_bg"
             android:onClick="searchContact"
-            android:text="@string/button_search"
+            android:text="@string/button_send"
             android:textColor="#fff"
             android:textSize="16sp" />
     </RelativeLayout>

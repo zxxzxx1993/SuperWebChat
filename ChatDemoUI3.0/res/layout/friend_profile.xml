@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dcd9d9">
+    <RelativeLayout
+        android:background="#64dfdf"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/friend_back"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/icon_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="个人资料"
+            android:textSize="25sp"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:background="#fbfcfb"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <ImageView
+            android:id="@+id/iv_friend"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <TextView
+            android:layout_marginLeft="6dp"
+            android:id="@+id/friend_usernick"
+            android:text="昵称"
+            android:textSize="19sp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/iv_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="6dp"
+            android:id="@+id/friend_username"
+            android:text="账号："
+            android:textSize="19sp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/iv_friend"
+            android:layout_below="@+id/friend_usernick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/friend_sendmessage"
+        android:background="#d3f480"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="发送消息"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/friend_chat"
+        android:background="#d3f480"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="视频聊天"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/friend_add"
+        android:background="#d3f480"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="添加好友"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

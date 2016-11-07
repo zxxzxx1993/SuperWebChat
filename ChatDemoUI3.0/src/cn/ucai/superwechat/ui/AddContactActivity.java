@@ -25,12 +25,18 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import cn.ucai.superwechat.SuperWeChatHelper;
-import cn.ucai.superwechat.R;;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;
-	private RelativeLayout searchedUserLayout;
+
 	private TextView nameText;
 	private Button searchBtn;
 	private String toAddUsername;
@@ -47,8 +53,6 @@ public class AddContactActivity extends BaseActivity{
 		mTextView.setText(strAdd);
 		String strUserName = getResources().getString(R.string.user_name);
 		editText.setHint(strUserName);
-		searchedUserLayout = (RelativeLayout) findViewById(R.id.ll_user);
-		nameText = (TextView) findViewById(R.id.name);
 		searchBtn = (Button) findViewById(R.id.search);
 	}
 	
@@ -67,16 +71,48 @@ public class AddContactActivity extends BaseActivity{
 				new EaseAlertDialog(this, R.string.Please_enter_a_username).show();
 				return;
 			}
-			
+			progressDialog = new ProgressDialog(this);
+			String stri = getResources().getString(R.string.Is_sending_a_request);
+			progressDialog.setMessage(stri);
+			progressDialog.setCanceledOnTouchOutside(false);
+			progressDialog.show();
 			// TODO you can search the user from your app server here.
 			
 			//show the userame and add button if user exist
-			searchedUserLayout.setVisibility(View.VISIBLE);
-			nameText.setText(toAddUsername);
-			
+//			nameText.setText(toAddUsername);
+			searchAppUser();
 		} 
-	}	
-	
+	}
+
+	private void searchAppUser() {
+		NetDao.searchUser(this, toAddUsername, new OkHttpUtils.OnCompleteListener<String>() {
+			@Override
+			public void onSuccess(String s) {
+				progressDialog.dismiss();
+				if (s!=null){
+					Result result = ResultUtils.getResultFromJson(s, User.class);
+					if (result!=null&&result.isRetMsg()){
+						User user = (User) result.getRetData();
+						if (user!=null){
+							MFGT.gotoProfileFriend(AddContactActivity.this,user);
+						}
+					}
+					else {
+						Toast.makeText(AddContactActivity.this, "搜索不到您输入的用户", Toast.LENGTH_SHORT).show();
+					}
+				}else {
+					Toast.makeText(AddContactActivity.this, "搜索不到您输入的用户", Toast.LENGTH_SHORT).show();
+				}
+			}
+
+			@Override
+			public void onError(String error) {
+                 progressDialog.dismiss();
+				Toast.makeText(AddContactActivity.this, error, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
 	/**
 	 *  add contact
 	 * @param view
