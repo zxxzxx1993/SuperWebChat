@@ -16,9 +16,18 @@ package cn.ucai.superwechat.adapter;
 import java.util.List;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.User;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+
 import cn.ucai.superwechat.R;;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.domain.InviteMessage;
+import cn.ucai.superwechat.ui.NewFriendsMsgActivity;
+import cn.ucai.superwechat.utils.MFGT;
+import cn.ucai.superwechat.utils.ResultUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -89,7 +98,27 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			} else{
 				holder.groupContainer.setVisibility(View.GONE);
 			}
-			
+			NetDao.searchUser(context, msg.getFrom(), new OkHttpUtils.OnCompleteListener<String>() {
+				@Override
+				public void onSuccess(String s) {
+					if (s!=null){
+						Result result = ResultUtils.getResultFromJson(s, User.class);
+						if (result!=null&&result.isRetMsg()){
+							User user = (User) result.getRetData();
+							if (user!=null){
+								EaseUserUtils.setAppUserAvatar(context,msg.getFrom(),holder.avator);
+								EaseUserUtils.setAppUserNick(user.getMUserNick(),holder.name);
+							}
+						}
+					}else {
+
+					}
+				}
+
+				@Override
+				public void onError(String error) {
+				}
+			});
 			holder.reason.setText(msg.getReason());
 			holder.name.setText(msg.getFrom());
 			// holder.time.setText(DateUtils.getTimestampString(new

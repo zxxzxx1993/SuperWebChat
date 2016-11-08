@@ -442,11 +442,13 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         runOnUiThread(new Runnable() {
             public void run() {
                 int count = getUnreadAddressCountTotal();
-//				if (count > 0) {
+				if (count > 0) {
 //					unreadAddressLable.setVisibility(View.VISIBLE);
-//				} else {
+                    mDMTabHost.setHasNew(1,true);
+				} else {
 //					unreadAddressLable.setVisibility(View.INVISIBLE);
-//				}
+                    mDMTabHost.setHasNew(1,false);
+				}
             }
         });
 

@@ -1,6 +1,7 @@
 package cn.ucai.superwechat.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,7 +55,7 @@ public class ProfileFriendActivity extends BaseActivity {
     }
 
     private void isFriend() {
-        if (SuperWeChatHelper.getInstance().getAppContactList().containsKey(user.getMUserName())) {
+        if (SuperWeChatHelper.getInstance().getContactList().containsKey(user.getMUserName())) {
             friendSendmessage.setVisibility(View.VISIBLE);
             friendChat.setVisibility(View.VISIBLE);
             friendAdd.setVisibility(View.GONE);
