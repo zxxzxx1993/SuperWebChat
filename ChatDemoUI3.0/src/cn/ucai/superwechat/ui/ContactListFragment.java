@@ -22,6 +22,7 @@ import cn.ucai.superwechat.SuperWeChatHelper;
 import cn.ucai.superwechat.R;;
 import cn.ucai.superwechat.db.InviteMessgeDao;
 import cn.ucai.superwechat.db.UserDao;
+import cn.ucai.superwechat.utils.MFGT;
 import cn.ucai.superwechat.widget.ContactItemView;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
@@ -93,65 +94,67 @@ public class ContactListFragment extends EaseContactListFragment {
         }
     }
     
-    
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    protected void setUpView() {
-//        titleBar.setRightImageResource(R.drawable.em_add);
-//        titleBar.setRightLayoutClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-////                startActivity(new Intent(getActivity(), AddContactActivity.class));
-//                NetUtils.hasDataConnection(getActivity());
-//            }
-//        });
-//        //设置联系人数据
-//        Map<String, EaseUser> m = SuperWeChatHelper.getInstance().getContactList();
-//        if (m instanceof Hashtable<?, ?>) {
-//            m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
-//        }
-//        setContactsMap(m);
-//        super.setUpView();
-//        listView.setOnItemClickListener(new OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                EaseUser user = (EaseUser)listView.getItemAtPosition(position);
-//                if (user != null) {
-//                    String username = user.getUsername();
-//                    // demo中直接进入聊天页面，实际一般是进入用户详情页
-//                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
-//                }
-//            }
-//        });
-//
-//
-//        // 进入添加好友页
-//        titleBar.getRightLayout().setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void setUpView() {
+        titleBar.setVisibility(View.GONE);
+        titleBar.setRightImageResource(R.drawable.em_add);
+        titleBar.setRightLayoutClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
 //                startActivity(new Intent(getActivity(), AddContactActivity.class));
-//            }
-//        });
-//
-//
-//        contactSyncListener = new ContactSyncListener();
-//        SuperWeChatHelper.getInstance().addSyncContactListener(contactSyncListener);
-//
-//        blackListSyncListener = new BlackListSyncListener();
-//        SuperWeChatHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
-//
-//        contactInfoSyncListener = new ContactInfoSyncListener();
-//        SuperWeChatHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
-//
-//        if (SuperWeChatHelper.getInstance().isContactsSyncedWithServer()) {
-//            loadingView.setVisibility(View.GONE);
-//        } else if (SuperWeChatHelper.getInstance().isSyncingContactsWithServer()) {
-//            loadingView.setVisibility(View.VISIBLE);
-//        }
-//    }
+                NetUtils.hasDataConnection(getActivity());
+            }
+        });
+        //设置联系人数据
+        Map<String, EaseUser> m = SuperWeChatHelper.getInstance().getContactList();
+        if (m instanceof Hashtable<?, ?>) {
+            m = (Map<String, EaseUser>) ((Hashtable<String, EaseUser>)m).clone();
+        }
+        setContactsMap(m);
+        super.setUpView();
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EaseUser user = (EaseUser)listView.getItemAtPosition(position);
+                if (user != null) {
+                    String username = user.getUsername();
+                    // demo中直接进入聊天页面，实际一般是进入用户详情页
+                    MFGT.gotoProfileFriend(getActivity(),SuperWeChatHelper.getInstance().getAppContactList().get(username));
+//                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                }
+            }
+        });
+
+
+        // 进入添加好友页
+        titleBar.getRightLayout().setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddContactActivity.class));
+            }
+        });
+
+
+        contactSyncListener = new ContactSyncListener();
+        SuperWeChatHelper.getInstance().addSyncContactListener(contactSyncListener);
+
+        blackListSyncListener = new BlackListSyncListener();
+        SuperWeChatHelper.getInstance().addSyncBlackListListener(blackListSyncListener);
+
+        contactInfoSyncListener = new ContactInfoSyncListener();
+        SuperWeChatHelper.getInstance().getUserProfileManager().addSyncContactInfoListener(contactInfoSyncListener);
+
+        if (SuperWeChatHelper.getInstance().isContactsSyncedWithServer()) {
+            loadingView.setVisibility(View.GONE);
+        } else if (SuperWeChatHelper.getInstance().isSyncingContactsWithServer()) {
+            loadingView.setVisibility(View.VISIBLE);
+        }
+    }
     
     @Override
     public void onDestroy() {

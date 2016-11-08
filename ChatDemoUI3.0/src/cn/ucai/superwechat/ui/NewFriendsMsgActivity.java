@@ -29,20 +29,27 @@ import java.util.List;
  *
  */
 public class NewFriendsMsgActivity extends BaseActivity {
-
+	ListView listView;
+	NewFriendsMsgAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.em_activity_new_friends_msg);
 
-		ListView listView = (ListView) findViewById(R.id.list);
+		listView = (ListView) findViewById(R.id.list);
 		InviteMessgeDao dao = new InviteMessgeDao(this);
 		List<InviteMessage> msgs = dao.getMessagesList();
 
-		NewFriendsMsgAdapter adapter = new NewFriendsMsgAdapter(this, 1, msgs); 
+		adapter = new NewFriendsMsgAdapter(this, 1, msgs);
 		listView.setAdapter(adapter);
 		dao.saveUnreadMessageCount(0);
 		
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		listView.setAdapter(adapter);
 	}
 
 	public void back(View view) {

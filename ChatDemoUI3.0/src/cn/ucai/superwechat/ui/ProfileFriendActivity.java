@@ -1,5 +1,6 @@
 package cn.ucai.superwechat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class ProfileFriendActivity extends BaseActivity {
     TextView friendUsernick;
     @Bind(R.id.friend_username)
     TextView friendUsername;
-    User user = null;
+    User user;
     @Bind(R.id.friend_sendmessage)
     Button friendSendmessage;
     @Bind(R.id.friend_chat)
@@ -48,6 +49,7 @@ public class ProfileFriendActivity extends BaseActivity {
     }
 
     private void setUserInfo() {
+      Log.e("zxxzxx",""+  user.getMUserName());
         EaseUserUtils.setAppUserAvatar(ProfileFriendActivity.this, user.getMUserName(), ivFriend);
         EaseUserUtils.setAppUserNick(user.getMUserNick(), friendUsernick);
         EaseUserUtils.setAppUserNameEhino(user.getMUserName(), friendUsername);
@@ -78,6 +80,7 @@ public class ProfileFriendActivity extends BaseActivity {
             case R.id.friend_sendmessage:
                 break;
             case R.id.friend_chat:
+                MFGT.gotoChat(this,user.getMUserName());
                 break;
             case R.id.friend_add:
                 MFGT.gototheAddFriend(this,user.getMUserName());
