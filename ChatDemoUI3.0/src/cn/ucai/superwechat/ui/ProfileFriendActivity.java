@@ -42,6 +42,7 @@ public class ProfileFriendActivity extends BaseActivity {
         setContentView(R.layout.friend_profile);
         ButterKnife.bind(this);
         user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
+        Log.e("哈哈哈","user="+user);
         if (user == null) {
             MFGT.finish(this);
         }
@@ -49,7 +50,6 @@ public class ProfileFriendActivity extends BaseActivity {
     }
 
     private void setUserInfo() {
-      Log.e("zxxzxx",""+  user.getMUserName());
         EaseUserUtils.setAppUserAvatar(ProfileFriendActivity.this, user.getMUserName(), ivFriend);
         EaseUserUtils.setAppUserNick(user.getMUserNick(), friendUsernick);
         EaseUserUtils.setAppUserNameEhino(user.getMUserName(), friendUsername);
@@ -57,7 +57,7 @@ public class ProfileFriendActivity extends BaseActivity {
     }
 
     private void isFriend() {
-        if (SuperWeChatHelper.getInstance().getContactList().containsKey(user.getMUserName())) {
+        if (SuperWeChatHelper.getInstance().getAppContactList().containsKey(user.getMUserName())) {
             friendSendmessage.setVisibility(View.VISIBLE);
             friendChat.setVisibility(View.VISIBLE);
             friendAdd.setVisibility(View.GONE);
@@ -78,9 +78,9 @@ public class ProfileFriendActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.friend_sendmessage:
+                MFGT.gotoChat(this,user.getMUserName());
                 break;
             case R.id.friend_chat:
-                MFGT.gotoChat(this,user.getMUserName());
                 break;
             case R.id.friend_add:
                 MFGT.gototheAddFriend(this,user.getMUserName());

@@ -32,6 +32,7 @@ import com.hyphenate.util.NetUtils;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -123,7 +124,9 @@ public class ContactListFragment extends EaseContactListFragment {
                 if (user != null) {
                     String username = user.getUsername();
                     // demo中直接进入聊天页面，实际一般是进入用户详情页
+                    Log.e("哈哈哈","user="+SuperWeChatHelper.getInstance().getAppContactList().get(username));
                     MFGT.gotoProfileFriend(getActivity(),SuperWeChatHelper.getInstance().getAppContactList().get(username));
+
 //                    startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
                 }
             }
