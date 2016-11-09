@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -100,10 +101,11 @@ public class EaseContactListFragment extends EaseBaseFragment {
         EMClient.getInstance().addConnectionListener(connectionListener);
         
         contactList = new ArrayList<EaseUser>();
+        Log.e(TAG, "contactList: " + contactList);
         getContactList();
         //init list
         contactListLayout.init(contactList);
-        
+        Log.e(TAG, "contactList: " + contactList);
         if(listItemClickListener != null){
             listView.setOnItemClickListener(new OnItemClickListener() {
     
@@ -227,9 +229,9 @@ public class EaseContactListFragment extends EaseBaseFragment {
      * get contact list and sort, will filter out users in blacklist
      */
     protected void getContactList() {
+        Log.e("哈哈哈","contactList="+contactList);
+        if (contactList!=null){
         contactList.clear();
-        if(contactsMap == null){
-            return;
         }
         synchronized (this.contactsMap) {
             Iterator<Entry<String, EaseUser>> iterator = contactsMap.entrySet().iterator();

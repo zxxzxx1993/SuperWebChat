@@ -43,6 +43,7 @@ import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.UserProfileActivity;
 import cn.ucai.superwechat.ui.VideoCallActivity;
 import cn.ucai.superwechat.ui.VoiceCallActivity;
+import cn.ucai.superwechat.utils.L;
 import cn.ucai.superwechat.utils.PreferenceManager;
 import cn.ucai.superwechat.utils.ResultUtils;
 
@@ -652,6 +653,7 @@ public class SuperWeChatHelper {
             }
             toAddUsers.put(username, user);
             localUsers.putAll(toAddUsers);
+
             Map<String,User>  localUser = getAppContactList();
           if (!localUser.containsKey(username)){
               NetDao.addContact(appContext, EMClient.getInstance().getCurrentUser(), username, new OkHttpUtils.OnCompleteListener<String>() {
@@ -661,6 +663,7 @@ public class SuperWeChatHelper {
                           Result result = ResultUtils.getResultFromJson(s,User.class);
                           if (result!=null&&result.isRetMsg()){
                               User u = (User) result.getRetData();
+                              L.e(TAG, "addContact u: " + u.toString());
                               saveAppContact(u);
                               broadcastManager.sendBroadcast(new Intent(Constant.ACTION_CONTACT_CHANAGED));
                           }

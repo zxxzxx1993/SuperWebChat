@@ -103,7 +103,7 @@ public class RegisterActivity extends BaseActivity {
          pd  = new ProgressDialog(this);
             pd.setMessage(getResources().getString(R.string.Is_the_registered));
             pd.show();
-                 registerAppServer();
+            registerAppServer();
         }
     }
 

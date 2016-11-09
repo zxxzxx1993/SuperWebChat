@@ -113,6 +113,10 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         ButterKnife.bind(this);
         // runtime permission for android 6.0, just require all permissions here for simple
         requestPermissions();
+
+
+        conversationListFragment = new ConversationListFragment();
+        contactListFragment = new ContactListFragment();
         initView();
         umeng();
         checkAccount();
@@ -120,8 +124,6 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
-		conversationListFragment = new ConversationListFragment();
-		contactListFragment = new ContactListFragment();
 //		SettingsFragment settingFragment = new SettingsFragment();
 //		fragments = new Fragment[] { conversationListFragment, contactListFragment, settingFragment};
 //
@@ -213,8 +215,8 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
         mMainTabAdpter.clear();
         mMFViewPager.setAdapter(mMainTabAdpter);
         mMFViewPager.setOffscreenPageLimit(4);
-        mMainTabAdpter.addFragment(new ConversationListFragment(), getString(R.string.app_name));
-        mMainTabAdpter.addFragment(new ContactListFragment(), getString(R.string.contacts));
+        mMainTabAdpter.addFragment(conversationListFragment, getString(R.string.app_name));
+        mMainTabAdpter.addFragment(contactListFragment, getString(R.string.contacts));
         mMainTabAdpter.addFragment(new DiscoverFragment(), getString(R.string.discover));
         mMainTabAdpter.addFragment(new ProfileFragment(), getString(R.string.me));
         mMainTabAdpter.notifyDataSetChanged();
@@ -315,16 +317,16 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
                 updateUnreadAddressLable();
-//                if (currentTabIndex == 0) {
+                if (currentTabIndex == 0) {
                     // refresh conversation list
                     if (conversationListFragment != null) {
                         conversationListFragment.refresh();
                     }
 //                } else if (currentTabIndex == 1) {
-                    if(contactListFragment != null) {
-                        contactListFragment.refresh();
-                    }
-//                }
+//                    if(contactListFragment != null) {
+//                        contactListFragment.refresh();
+//                    }
+                }
                 String action = intent.getAction();
                 if (action.equals(Constant.ACTION_GROUP_CHANAGED)) {
                     if (EaseCommonUtils.getTopActivity(MainActivity.this).equals(GroupsActivity.class.getName())) {
