@@ -436,6 +436,7 @@ public class MainActivity extends BaseActivity implements DMTabHost.OnCheckedCha
 //		} else {
 //			unreadLabel.setVisibility(View.INVISIBLE);
 //		}
+        mDMTabHost.setUnreadCount(0,count);
     }
 
     /**
