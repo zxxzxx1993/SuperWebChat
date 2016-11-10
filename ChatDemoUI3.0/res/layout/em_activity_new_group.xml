@@ -73,9 +73,10 @@
         android:textSize="18sp" />
     
     
-    <LinearLayout 
+    <LinearLayout
+        android:id="@+id/layout_avatar_send"
         android:layout_width="match_parent"
-       android:layout_height="39dp"
+       android:layout_height="65dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -85,14 +86,45 @@
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="群图标"
+            android:textColor="#333"
+            android:layout_gravity="center_vertical"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/iv_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ease_group_icon"
+            android:layout_marginRight="5dp"
+            />
+
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/em_button_normal_shape"
+        >
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/Whether_the_public"
             android:textColor="#333"
             android:layout_gravity="center_vertical"
             android:textSize="18sp"
             android:layout_weight="1"
             />
-        
-        <CheckBox 
+
+        <CheckBox
             android:id="@+id/cb_public"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,9 +132,8 @@
             android:layout_gravity="center_vertical"
             android:button="@drawable/em_checkbox_bg_selector"
             />
-        
+
     </LinearLayout>
-    
     <LinearLayout 
         android:id="@+id/ll_open_invite"
         android:layout_width="match_parent"

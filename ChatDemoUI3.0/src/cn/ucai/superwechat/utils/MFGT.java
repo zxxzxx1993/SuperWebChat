@@ -11,6 +11,7 @@ import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.R;
 import cn.ucai.superwechat.ui.AddContactActivity;
 import cn.ucai.superwechat.ui.ChatActivity;
+import cn.ucai.superwechat.ui.GroupsActivity;
 import cn.ucai.superwechat.ui.LoginActivity;
 import cn.ucai.superwechat.ui.MainActivity;
 import cn.ucai.superwechat.ui.ProfileFriendActivity;
@@ -71,5 +72,9 @@ public static void gotoLogin(Activity context){
         intent.setClass(context, ChatActivity.class);
         intent.putExtra("userId",username);
         context.startActivity(intent);
+    }
+
+    public static void gotoGroup(Activity context) {
+        startActivity(context, GroupsActivity.class);
     }
 }
