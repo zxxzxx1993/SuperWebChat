@@ -87,7 +87,7 @@ public class ProfileFriendActivity extends BaseActivity {
                 if (!EMClient.getInstance().isConnected())
                     Toast.makeText(this, R.string.not_connect_to_server, Toast.LENGTH_SHORT).show();
                 else {
-                    startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", EaseConstant.EXTRA_USER_ID)
+                    startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", user.getMUserName())
                             .putExtra("isComingCall", false));
                     // videoCallBtn.setEnabled(false);
 //                    inputMenu.hideExtendMenuContainer();
