@@ -73,6 +73,7 @@ public class NewGroupActivity extends BaseActivity {
     private static final int REQUESTCODE_CUTTING = 2;
     private static final int REQUESTCODE_PICK_MEMERY= 3;
     File avatarFile = null;
+    EMGroup group;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,8 +165,8 @@ public class NewGroupActivity extends BaseActivity {
                     } else {
                         option.style = memberCheckbox.isChecked() ? EMGroupStyle.EMGroupStylePrivateMemberCanInvite : EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
                     }
-                    EMGroup group = EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
-                    createAppGroup(group);
+                  group   = EMClient.getInstance().groupManager().createGroup(groupName, desc, members, reason, option);
+                    createAppGroup();
                 } catch (final HyphenateException e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -179,7 +180,7 @@ public class NewGroupActivity extends BaseActivity {
         }).start();
     }
 
-    private void createAppGroup(EMGroup group) {
+    private void createAppGroup() {
               if (avatarFile==null){
                   NetDao.createGroup(this, group, new OkHttpUtils.OnCompleteListener<String>() {
                       @Override
@@ -189,7 +190,8 @@ public class NewGroupActivity extends BaseActivity {
 
                       @Override
                       public void onError(String error) {
-
+                          progressDialog.dismiss();
+                          Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
                       }
                   });
               }
@@ -202,7 +204,8 @@ public class NewGroupActivity extends BaseActivity {
 
                       @Override
                       public void onError(String error) {
-
+                          progressDialog.dismiss();
+                          Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
                       }
                   });
               }
@@ -212,10 +215,49 @@ public class NewGroupActivity extends BaseActivity {
         if (s!=null){
             Result result = ResultUtils.getResultFromJson(s, Group.class);
             if (result!=null&&result.isRetMsg()){
-                Group group = (Group) result.getRetData();
+                if (group!=null&&group.getMembers()!=null&&group.getMembers().size()>1){
+                    addGroupMembers();
+                }else {
                 createGroupSuccess();
+              }
+            }
+            else {
+                progressDialog.dismiss();
+                Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
             }
         }
+        else {
+            progressDialog.dismiss();
+            Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addGroupMembers() {
+        NetDao.addGroupMembers(this, group, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s!=null){
+                    Result result = ResultUtils.getResultFromJson(s, Group.class);
+                    if (result!=null&&result.isRetMsg()){
+                        createGroupSuccess();
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    progressDialog.dismiss();
+                    Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                progressDialog.dismiss();
+                Toast.makeText(NewGroupActivity.this, R.string.Failed_to_create_groups, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void createGroupSuccess() {
