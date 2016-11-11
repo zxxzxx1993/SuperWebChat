@@ -25,7 +25,6 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle arg0) {
 		setContentView(R.layout.em_activity_splash);
 		super.onCreate(arg0);
-		Log.e("哈哈哈0","list="+SuperWeChatHelper.getInstance().getAppContactList());
 		AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
 		animation.setDuration(1500);
 	}

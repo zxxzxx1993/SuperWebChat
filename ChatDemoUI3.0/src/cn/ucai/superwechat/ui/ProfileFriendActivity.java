@@ -45,7 +45,6 @@ public class ProfileFriendActivity extends BaseActivity {
         setContentView(R.layout.friend_profile);
         ButterKnife.bind(this);
         user = (User) getIntent().getSerializableExtra(I.User.USER_NAME);
-        Log.e("哈哈哈","user="+user);
         if (user == null) {
             MFGT.finish(this);
         }
