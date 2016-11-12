@@ -70,30 +70,36 @@ public class ProfileFriendActivity extends BaseActivity {
                 if (s!=null){
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     if (result!=null&&result.isRetMsg()){
-                    user = (User) result.getRetData();
-                        if (user!=null){
-                            setUserInfo();
+                   User u = (User) result.getRetData();
+                        if (u!=null){
                             if (isfriend){
                                 SuperWeChatHelper.getInstance().saveAppContact(user);
                             }
+                            user = u;
+                            setUserInfo();
+
                         }else {
+                            if (!isfriend){
                             MFGT.finish(ProfileFriendActivity.this);
-                            return;
+                            return;}
                         }
                     }else {
-                        MFGT.finish(ProfileFriendActivity.this);
-                        return;
+                        if (!isfriend){
+                            MFGT.finish(ProfileFriendActivity.this);
+                            return;}
                     }
                 }else {
-                    MFGT.finish(ProfileFriendActivity.this);
-                    return;
+                    if (!isfriend){
+                        MFGT.finish(ProfileFriendActivity.this);
+                        return;}
                 }
             }
 
             @Override
             public void onError(String error) {
-                MFGT.finish(ProfileFriendActivity.this);
-                return;
+                if (!isfriend){
+                    MFGT.finish(ProfileFriendActivity.this);
+                    return;}
             }
         });
     }
