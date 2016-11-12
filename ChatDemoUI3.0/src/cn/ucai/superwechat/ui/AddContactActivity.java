@@ -94,7 +94,7 @@ public class AddContactActivity extends BaseActivity{
 					if (result!=null&&result.isRetMsg()){
 						User user = (User) result.getRetData();
 						if (user!=null){
-							MFGT.gotoProfileFriend(AddContactActivity.this,user);
+							MFGT.gotoProfileFriend(AddContactActivity.this,user.getMUserName());
 						}
 					}
 					else {

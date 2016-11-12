@@ -54,10 +54,10 @@ public static void gotoLogin(Activity context){
         startActivity(activity, AddContactActivity.class);
     }
 
-    public static void gotoProfileFriend(Context context, User user) {
+    public static void gotoProfileFriend(Context context,String username) {
         Intent intent = new Intent();
         intent.setClass(context, ProfileFriendActivity.class);
-        intent.putExtra(I.User.USER_NAME,user);
+        intent.putExtra(I.User.USER_NAME,username);
         context.startActivity(intent);
     }
 
