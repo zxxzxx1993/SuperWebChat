@@ -21,7 +21,12 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
-import cn.ucai.superwechat.R;;
+import cn.ucai.superwechat.R;
+import cn.ucai.superwechat.bean.Result;
+import cn.ucai.superwechat.data.NetDao;
+import cn.ucai.superwechat.data.OkHttpUtils;
+import cn.ucai.superwechat.utils.ResultUtils;;
+import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
@@ -36,6 +41,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -307,7 +313,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 退出群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void exitGrop() {
 		String st1 = getResources().getString(R.string.Exit_the_group_chat_failure);
@@ -339,7 +345,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 	/**
 	 * 解散群组
 	 * 
-	 * @param groupId
+	 * @param
 	 */
 	private void deleteGrop() {
 		final String st5 = getResources().getString(R.string.Dissolve_group_chat_tofail);
@@ -691,6 +697,21 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 
 					@Override
 					public boolean onLongClick(View v) {
+						NetDao.deleteGroupMember(GroupDetailsActivity.this, groupId, username, new OkHttpUtils.OnCompleteListener<String>() {
+							@Override
+							public void onSuccess(String s) {
+								if (s!=null){
+									Result result = ResultUtils.getResultFromJson(s, User.class);
+									if (result!=null&&result.isRetMsg()){
+										Log.e("草泥马","result="+result);
+									}
+								}
+							}
+							@Override
+							public void onError(String error) {
+
+							}
+						});
 					    if(EMClient.getInstance().getCurrentUser().equals(username))
 					        return true;
 						if (group.getOwner().equals(EMClient.getInstance().getCurrentUser())) {
